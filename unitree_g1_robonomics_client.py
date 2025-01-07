@@ -22,6 +22,8 @@ class UnitreeRobonomics:
         self.loco_client.SetTimeout(10.0)
         self.loco_client.Init()
 
+        self.loco_client.Damp()
+
         with open(robonomics_params_path, 'r') as robonomics_config_file:
             pubsub_params_dict: Dict = yaml.load(robonomics_config_file, Loader=yaml.SafeLoader)
 
@@ -77,14 +79,23 @@ class UnitreeRobonomics:
             print("Launch param content: %s" % received_param)
 
             if received_param == '0':
-                self.loco_client.Damp()
-                print('Robot is damping')
+                # 0x3000000000000000000000000000000000000000000000000000000000000000
+                self.loco_client.Squat()
+                print('Robot is squatting')
             elif received_param == '1':
+                # 0x3100000000000000000000000000000000000000000000000000000000000000
                 self.loco_client.StandUp()
+                time.sleep(5)
+                self.loco_client.Move(0,0,0.1)
                 print('Robot is standing up')
             elif received_param == '2':
-                self.loco_client.Sit()
-                print('Robot is sitting')
+                # 0x3200000000000000000000000000000000000000000000000000000000000000
+                for i in range(0, 12):
+                    self.loco_client.Move(0,0,0.5)
+                    time.sleep(1)
+                print('Robot is rotating')
+            else:
+                print('Unknown command to robot')
 
         except Exception as e:
             print('Launch receiving failed with exception: %s' % str(e))
