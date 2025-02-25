@@ -22,8 +22,6 @@ class UnitreeRobonomics:
         self.loco_client.SetTimeout(10.0)
         self.loco_client.Init()
 
-        self.loco_client.Damp()
-
         with open(robonomics_params_path, 'r') as robonomics_config_file:
             pubsub_params_dict: Dict = yaml.load(robonomics_config_file, Loader=yaml.SafeLoader)
 
@@ -63,7 +61,7 @@ class UnitreeRobonomics:
             subscription_handler=self.receive_launch_callback,
         )
 
-    def receive_launch_callback(self, launch_raw_data: tuple[str, str, str]) -> None:
+    def receive_launch_callback(self, launch_raw_data) -> None:
         """
         Event handler when launch appears
         :param launch_raw_data: tuple with addresses and launch parameter
@@ -91,7 +89,7 @@ class UnitreeRobonomics:
             elif received_param == '2':
                 # 0x3200000000000000000000000000000000000000000000000000000000000000
                 self.loco_client.ShakeHand()
-                time.sleep(3)
+                time.sleep(5)
                 self.loco_client.ShakeHand()
                 print('Robot is shaking hand')
                 time.sleep(1)
