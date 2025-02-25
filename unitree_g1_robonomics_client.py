@@ -80,20 +80,21 @@ class UnitreeRobonomics:
 
             if received_param == '0':
                 # 0x3000000000000000000000000000000000000000000000000000000000000000
-                self.loco_client.Squat()
-                print('Robot is squatting')
+                self.loco_client.WaveHand()
+                print('Robot is waving hand')
+                time.sleep(1)
             elif received_param == '1':
                 # 0x3100000000000000000000000000000000000000000000000000000000000000
-                self.loco_client.StandUp()
-                time.sleep(5)
-                self.loco_client.Move(0,0,0.1)
-                print('Robot is standing up')
+                self.loco_client.WaveHand(True)
+                print('Robot is waving hand with a turn')
+                time.sleep(1)
             elif received_param == '2':
                 # 0x3200000000000000000000000000000000000000000000000000000000000000
-                for i in range(0, 12):
-                    self.loco_client.Move(0,0,0.5)
-                    time.sleep(1)
-                print('Robot is rotating')
+                self.loco_client.ShakeHand()
+                time.sleep(3)
+                self.loco_client.ShakeHand()
+                print('Robot is shaking hand')
+                time.sleep(1)
             else:
                 print('Unknown command to robot')
 
